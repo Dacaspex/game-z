@@ -13,6 +13,8 @@ public class ZombieGame extends BasicGameState {
 
     private Player player;
 
+    private float lastTick;
+
     @Override
     public int getID() {
         return GameStates.IN_GAME.getId();
@@ -30,17 +32,31 @@ public class ZombieGame extends BasicGameState {
 
         player.draw(graphics);
 
+        lastTick = System.nanoTime();
+
     }
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
 
+        // TODO: Implement delta time
+        float delta = 0.1f;
+
         // TODO: Move to separate listener class
         if (gameContainer.getInput().isKeyDown(Input.KEY_W)) {
-
+            player.moveUp();
+        }
+        if (gameContainer.getInput().isKeyDown(Input.KEY_S)) {
+            player.moveDown();
+        }
+        if (gameContainer.getInput().isKeyDown(Input.KEY_A)) {
+            player.moveLeft();
+        }
+        if (gameContainer.getInput().isKeyDown(Input.KEY_D)) {
+            player.moveRight();
         }
 
-        player.update(0);
+        player.update(delta);
 
     }
 }
