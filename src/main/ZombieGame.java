@@ -1,7 +1,8 @@
 package main;
 
 import entity.Player;
-import map.Location;
+import entity.zombie.Zombie;
+import math.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -13,6 +14,8 @@ public class ZombieGame extends BasicGameState {
 
     private Player player;
 
+    private Zombie zombie;
+
     private float lastTick;
 
     @Override
@@ -23,7 +26,10 @@ public class ZombieGame extends BasicGameState {
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
 
-        player = new Player(new Location(100, 100));
+        player = new Player(new Vector2f(100, 100));
+        zombie = new Zombie(new Vector2f(300, 300));
+
+        Zombie.setPlayer(player);
 
     }
 
@@ -31,6 +37,7 @@ public class ZombieGame extends BasicGameState {
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
 
         player.draw(graphics);
+        zombie.draw(graphics);
 
         lastTick = System.nanoTime();
 
@@ -60,6 +67,7 @@ public class ZombieGame extends BasicGameState {
         }
 
         player.update(delta);
+        zombie.update(delta);
 
     }
 }

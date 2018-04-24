@@ -1,10 +1,10 @@
 package entity;
 
-import map.Location;
+import math.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-public class Player extends Entity {
+public class Player extends LivingEntity {
 
     private int size;
 
@@ -15,7 +15,7 @@ public class Player extends Entity {
 
     private double speed;
 
-    public Player(Location location) {
+    public Player(Vector2f location) {
         super(location);
 
         this.size = 30;
@@ -81,7 +81,7 @@ public class Player extends Entity {
     @Override
     public void draw(Graphics g) {
 
-        g.setColor(Color.green);
+        g.setColor(Color.blue);
         g.fillOval((int) location.x, (int) location.y, size, size);
 
     }
