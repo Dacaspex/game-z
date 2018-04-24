@@ -55,6 +55,9 @@ public class ZombieGame extends BasicGameState {
         if (gameContainer.getInput().isKeyDown(Input.KEY_D)) {
             player.moveRight();
         }
+        if (gameContainer.getInput().isKeyDown(Input.KEY_ESCAPE)) {
+            gameContainer.exit();
+        }
 
         player.update(delta);
 
