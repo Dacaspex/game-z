@@ -2,6 +2,7 @@ package main;
 
 import entity.Player;
 import entity.zombie.Zombie;
+import guns.Bullet;
 import math.Vector2f;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -10,11 +11,15 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ZombieGame extends BasicGameState {
 
     private Player player;
-
     private Zombie zombie;
+
+    private List<Bullet> bullets;
 
     private float lastTick;
 
@@ -26,8 +31,9 @@ public class ZombieGame extends BasicGameState {
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
 
-        player = new Player(new Vector2f(100, 100));
-        zombie = new Zombie(new Vector2f(300, 300));
+        player = new Player(new Vector2f(0, 0));
+//        zombie = new Zombie(new Vector2f(300, 300));
+        bullets = new ArrayList<>();
 
         Zombie.setPlayer(player);
 
@@ -37,10 +43,11 @@ public class ZombieGame extends BasicGameState {
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
 
         player.draw(graphics);
-        zombie.draw(graphics);
+//        zombie.draw(graphics);
 
-        lastTick = System.nanoTime();
-
+        for (Bullet bullet : bullets) {
+            bullet.draw(graphics);
+        }
     }
 
     @Override
@@ -62,12 +69,20 @@ public class ZombieGame extends BasicGameState {
         if (gameContainer.getInput().isKeyDown(Input.KEY_D)) {
             player.moveRight();
         }
+        if (gameContainer.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+            Bullet bullet = player.shoot();
+            bullets.add(bullet);
+        }
         if (gameContainer.getInput().isKeyDown(Input.KEY_ESCAPE)) {
             gameContainer.exit();
         }
 
         player.update(delta);
-        zombie.update(delta);
+//        zombie.update(delta);
+
+        for (Bullet bullet : bullets) {
+            bullet.update(delta);
+        }
 
     }
 }

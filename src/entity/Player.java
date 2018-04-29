@@ -1,5 +1,7 @@
 package entity;
 
+import guns.Bullet;
+import guns.Gun;
 import math.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -15,11 +17,16 @@ public class Player extends LivingEntity {
 
     private double speed;
 
+    private double angle;
+
+    private Gun gun;
+
     public Player(Vector2f location) {
         super(location);
 
         this.size = 30;
         this.speed = 5;
+        this.gun = new Gun();
     }
 
     public void moveUp() {
@@ -36,6 +43,10 @@ public class Player extends LivingEntity {
 
     public void moveRight() {
         moveRight = true;
+    }
+
+    public Bullet shoot() {
+        return gun.shoot(location.copy(), new Vector2f(0, 1));
     }
 
     @Override
@@ -82,7 +93,12 @@ public class Player extends LivingEntity {
     public void draw(Graphics g) {
 
         g.setColor(Color.blue);
-        g.fillOval((int) location.x, (int) location.y, size, size);
+        g.fillOval(
+                (int) (location.x - size / 2),
+                (int) (location.y - size / 2),
+                size,
+                size
+        );
 
     }
 

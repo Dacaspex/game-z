@@ -31,6 +31,13 @@ public class Vector2f {
         );
     }
 
+    public Vector2f multiply(double value) {
+        return new Vector2f(
+                (float) (x * value),
+                (float) (y * value)
+        );
+    }
+
     public double getLength() {
         return Math.sqrt(x * x + y * y);
     }
@@ -42,6 +49,10 @@ public class Vector2f {
                 x / length,
                 y / length
         );
+    }
+
+    public Vector2f copy() {
+        return new Vector2f(x, y);
     }
 
     @Override

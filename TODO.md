@@ -10,3 +10,6 @@
     - Player can hold a gun
     - Player can shoot a gun
     - Zombies are damaged by gunshots
+
+- Better movement system
+    - Based on acceleration/velocity

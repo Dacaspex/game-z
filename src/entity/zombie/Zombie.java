@@ -11,6 +11,8 @@ public class Zombie extends LivingEntity {
     private int size;
 
     private double speed;
+    private double health;
+    private double maxHealth;
 
     private static Player player;
 
@@ -19,6 +21,8 @@ public class Zombie extends LivingEntity {
 
         this.size = 30;
         this.speed = 2;
+        this.health = 40;
+        this.maxHealth = 100;
     }
 
     @Override
@@ -38,8 +42,20 @@ public class Zombie extends LivingEntity {
     @Override
     public void draw(Graphics g) {
 
+        // Draw zombie
         g.setColor(new Color(0, 140, 20));
-        g.fillOval((int) location.x, (int) location.y, size, size);
+        g.fillOval(
+                (int) (location.x - size / 2),
+                (int) (location.y - size / 2),
+                size,
+                size
+        );
+
+        // Draw health bar
+        g.setColor(Color.red);
+        g.fillRect(location.x - 20, location.y - 30, 40, 5);
+        g.setColor(Color.green);
+        g.fillRect(location.x - 20, location.y - 30, (float) (health / maxHealth) * 40, 5);
 
     }
 
