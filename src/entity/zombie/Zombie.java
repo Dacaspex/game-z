@@ -9,11 +9,7 @@ import org.newdawn.slick.Graphics;
 public class Zombie extends LivingEntity {
 
     private int size;
-
     private double speed;
-    private double health;
-    private double maxHealth;
-
     private static Player player;
 
     public Zombie(Vector2f location) {
@@ -21,12 +17,25 @@ public class Zombie extends LivingEntity {
 
         this.size = 30;
         this.speed = 2;
-        this.health = 40;
+        this.health = 100;
         this.maxHealth = 100;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public double getSpeed() {
+        return speed;
     }
 
     @Override
     public boolean update(float delta) {
+
+        if (health <= 0) {
+            // TODO: Temporary measure
+            return true;
+        }
 
         double _speed = delta * speed;
 

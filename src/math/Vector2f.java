@@ -60,6 +60,10 @@ public class Vector2f {
         return Math.sqrt(x * x + y * y);
     }
 
+    public double getDistanceTo(Vector2f vector) {
+        return this.sub(vector).getLength();
+    }
+
     public Vector2f normalize() {
         float length = (float) getLength();
 

@@ -28,6 +28,10 @@ public abstract class LivingEntity extends Entity {
         this.maxHealth = maxHealth;
     }
 
+    public void damage(double damage) {
+        this.health -= damage;
+    }
+
     @Override
     public abstract boolean update(float delta);
 

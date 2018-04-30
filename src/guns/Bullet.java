@@ -20,6 +20,10 @@ public class Bullet extends Entity {
         this.distance = distance;
     }
 
+    public double getDamage() {
+        return damage;
+    }
+
     @Override
     public boolean update(float delta) {
 

@@ -10,13 +10,14 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ZombieGame extends BasicGameState {
 
     private Player player;
-    private Zombie zombie;
 
+    private List<Zombie> zombies;
     private List<Bullet> bullets;
 
     private float lastTick;
@@ -30,8 +31,10 @@ public class ZombieGame extends BasicGameState {
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
 
         player = new Player(new Vector2f(0, 0));
-//        zombie = new Zombie(new Vector2f(300, 300));
+        zombies = new ArrayList<>();
         bullets = new ArrayList<>();
+
+        zombies.add(new Zombie(new Vector2f(300, 300)));
 
         Zombie.setPlayer(player);
 
@@ -44,7 +47,10 @@ public class ZombieGame extends BasicGameState {
         int height = gameContainer.getHeight();
 
         player.draw(graphics);
-//        zombie.draw(graphics);
+
+        for (Zombie zombie : zombies) {
+            zombie.draw(graphics);
+        }
 
         for (Bullet bullet : bullets) {
             bullet.draw(graphics);
@@ -109,9 +115,24 @@ public class ZombieGame extends BasicGameState {
         }
 
         player.update(delta);
-//        zombie.update(delta);
 
-        bullets.removeIf(p -> !p.update(delta));
+        for (Zombie zombie : zombies) {
+            zombie.update(delta);
+        }
 
+        for (Iterator<Bullet> it = bullets.iterator(); it.hasNext(); ) {
+            Bullet bullet = it.next();
+
+            if (!bullet.update(delta)) {
+                it.remove();
+            }
+
+            for (Zombie zombie : zombies) {
+                if (zombie.getLocation().getDistanceTo(bullet.getLocation()) < zombie.getSize()) {
+                    it.remove();
+                    zombie.damage(bullet.getDamage());
+                }
+            }
+        }
     }
 }
