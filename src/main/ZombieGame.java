@@ -3,11 +3,9 @@ package main;
 import entity.Player;
 import entity.zombie.Zombie;
 import guns.Bullet;
+import guns.Gun;
 import math.Vector2f;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -42,12 +40,31 @@ public class ZombieGame extends BasicGameState {
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
 
+        int width = gameContainer.getWidth();
+        int height = gameContainer.getHeight();
+
         player.draw(graphics);
 //        zombie.draw(graphics);
 
         for (Bullet bullet : bullets) {
             bullet.draw(graphics);
         }
+
+        /* GUI components */
+        // Gun
+        graphics.setColor(Color.white);
+        Gun gun = player.getGun();
+
+        graphics.drawString("Gun: " + gun.getName(), 10, height - 70);
+        if (gun.isReloading()) {
+            graphics.setColor(Color.red);
+            graphics.drawString("Clip: Reloading...", 10, height - 50);
+            graphics.setColor(Color.white);
+        } else {
+            graphics.drawString("Clip: " + gun.getClipSize() + "/" + gun.getClipCapacity(), 10, height - 50);
+        }
+        graphics.drawString("Ammo left: " + gun.getTotalAmmunition(), 10, height - 30);
+
     }
 
     @Override
@@ -55,6 +72,13 @@ public class ZombieGame extends BasicGameState {
 
         // TODO: Implement delta time
         float delta = 0.1f;
+
+        player.setDirection(
+                new Vector2f(
+                        gameContainer.getInput().getMouseX(),
+                        gameContainer.getInput().getMouseY()
+                ).subi(player.getLocation()).normalize()
+        );
 
         // TODO: Move to separate listener class
         if (gameContainer.getInput().isKeyDown(Input.KEY_W)) {
@@ -70,8 +94,15 @@ public class ZombieGame extends BasicGameState {
             player.moveRight();
         }
         if (gameContainer.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            Bullet bullet = player.shoot();
-            bullets.add(bullet);
+            if (player.getGun().canShoot()) {
+                Bullet bullet = player.shoot();
+                bullets.add(bullet);
+            }
+        }
+        if (gameContainer.getInput().isKeyPressed(Input.KEY_R)) {
+            if (player.getGun().canReload()) {
+                player.getGun().reload();
+            }
         }
         if (gameContainer.getInput().isKeyDown(Input.KEY_ESCAPE)) {
             gameContainer.exit();
@@ -80,9 +111,7 @@ public class ZombieGame extends BasicGameState {
         player.update(delta);
 //        zombie.update(delta);
 
-        for (Bullet bullet : bullets) {
-            bullet.update(delta);
-        }
+        bullets.removeIf(p -> !p.update(delta));
 
     }
 }

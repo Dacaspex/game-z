@@ -35,7 +35,13 @@ public abstract class Entity {
         this.location = location;
     }
 
-    public abstract void update(float delta);
+    /**
+     * Updates the entity
+     *
+     * @param delta Delta time since last frame
+     * @return True if entity may continue to exist, false otherwise
+     */
+    public abstract boolean update(float delta);
 
     public abstract void draw(Graphics g);
 }

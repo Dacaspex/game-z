@@ -29,7 +29,7 @@ public abstract class LivingEntity extends Entity {
     }
 
     @Override
-    public abstract void update(float delta);
+    public abstract boolean update(float delta);
 
     @Override
     public abstract void draw(Graphics g);

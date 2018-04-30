@@ -26,7 +26,7 @@ public class Zombie extends LivingEntity {
     }
 
     @Override
-    public void update(float delta) {
+    public boolean update(float delta) {
 
         double _speed = delta * speed;
 
@@ -37,6 +37,8 @@ public class Zombie extends LivingEntity {
                 .multiply((float) _speed);
 
         location = location.add(direction);
+
+        return true;
     }
 
     @Override

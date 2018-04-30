@@ -17,11 +17,25 @@ public class Vector2f {
         );
     }
 
+    public Vector2f subi(Vector2f vector) {
+        this.x -= vector.x;
+        this.y -= vector.y;
+
+        return this;
+    }
+
     public Vector2f add(Vector2f vector) {
         return new Vector2f(
                 x + vector.x,
                 y + vector.y
         );
+    }
+
+    public Vector2f addi(Vector2f vector) {
+        this.x += vector.x;
+        this.y += vector.y;
+
+        return this;
     }
 
     public Vector2f multiply(float value) {
@@ -32,10 +46,14 @@ public class Vector2f {
     }
 
     public Vector2f multiply(double value) {
-        return new Vector2f(
-                (float) (x * value),
-                (float) (y * value)
-        );
+        return multiply((float) value);
+    }
+
+    public Vector2f multiplyi(float value) {
+        this.x *= value;
+        this.y *= value;
+
+        return this;
     }
 
     public double getLength() {

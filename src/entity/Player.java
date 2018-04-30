@@ -1,5 +1,6 @@
 package entity;
 
+import guns.BoringPistol;
 import guns.Bullet;
 import guns.Gun;
 import math.Vector2f;
@@ -17,7 +18,7 @@ public class Player extends LivingEntity {
 
     private double speed;
 
-    private double angle;
+    private Vector2f direction;
 
     private Gun gun;
 
@@ -26,7 +27,22 @@ public class Player extends LivingEntity {
 
         this.size = 30;
         this.speed = 5;
-        this.gun = new Gun();
+        this.gun = new BoringPistol();
+    }
+
+    /**
+     * @param direction Normalised direction towards player is looking
+     */
+    public void setDirection(Vector2f direction) {
+        this.direction = direction;
+    }
+
+    public Gun getGun() {
+        return gun;
+    }
+
+    public void setGun(Gun gun) {
+        this.gun = gun;
     }
 
     public void moveUp() {
@@ -46,11 +62,14 @@ public class Player extends LivingEntity {
     }
 
     public Bullet shoot() {
-        return gun.shoot(location.copy(), new Vector2f(0, 1));
+        return gun.shoot(
+                location.copy(),
+                direction
+        );
     }
 
     @Override
-    public void update(float delta) {
+    public boolean update(float delta) {
 
         double _speed = delta * speed;
 
@@ -87,6 +106,8 @@ public class Player extends LivingEntity {
         }
 
         resetMovement();
+
+        return true;
     }
 
     @Override
