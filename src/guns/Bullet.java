@@ -27,7 +27,7 @@ public class Bullet extends Entity {
     @Override
     public boolean update(float delta) {
 
-        Vector2f velocity = direction.multiply(speed);
+        Vector2f velocity = direction.multiply(speed * delta);
 
         location.addi(velocity);
         distance -= velocity.getLength();
@@ -42,7 +42,7 @@ public class Bullet extends Entity {
     @Override
     public void draw(Graphics g) {
 
-        Vector2f vector = location.sub(direction.multiply(speed * 5));
+        Vector2f vector = location.sub(direction.multiply(speed / 100));
 
         g.setColor(Color.yellow);
         g.drawLine(location.x, location.y, vector.x, vector.y);

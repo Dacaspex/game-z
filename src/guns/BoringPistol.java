@@ -6,10 +6,10 @@ public class BoringPistol extends Gun {
 
     public BoringPistol() {
         this.damage = 20;
-        this.bulletSpeed = 2;
+        this.bulletSpeed = 2000;
         this.bulletDistance = 500;
 
-        this.totalAmmunition = 200;
+        this.totalAmmunition = 20;
         this.clipSize = 8;
         this.clipCapacity = 8;
 

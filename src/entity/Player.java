@@ -26,7 +26,7 @@ public class Player extends LivingEntity {
         super(location);
 
         this.size = 30;
-        this.speed = 5;
+        this.speed = 400;
         this.gun = new BoringPistol();
     }
 

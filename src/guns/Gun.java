@@ -84,6 +84,11 @@ public class Gun {
 
     public Bullet shoot(Vector2f start, Vector2f direction) {
         clipSize--;
+
+        if (clipSize == 0 && canReload()) {
+            reload();
+        }
+
         return new Bullet(start, direction, bulletSpeed, damage, bulletDistance);
     }
 }

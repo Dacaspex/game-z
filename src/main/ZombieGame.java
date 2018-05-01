@@ -20,7 +20,7 @@ public class ZombieGame extends BasicGameState {
     private List<Zombie> zombies;
     private List<Bullet> bullets;
 
-    private float lastTick;
+    private long lastTick;
 
     @Override
     public int getID() {
@@ -34,10 +34,10 @@ public class ZombieGame extends BasicGameState {
         zombies = new ArrayList<>();
         bullets = new ArrayList<>();
 
-        zombies.add(new Zombie(new Vector2f(300, 300)));
-
+//        zombies.add(new Zombie(new Vector2f(300, 300)));
         Zombie.setPlayer(player);
 
+        lastTick = System.nanoTime();
     }
 
     @Override
@@ -70,15 +70,16 @@ public class ZombieGame extends BasicGameState {
             graphics.drawString("Clip: " + gun.getClipSize() + "/" + gun.getClipCapacity(), 10, height - 50);
         }
         graphics.drawString("Ammo left: " + gun.getTotalAmmunition(), 10, height - 30);
-
     }
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
 
         // TODO: Implement delta time
-        float delta = 0.1f;
+        float delta = (float) (System.nanoTime() - lastTick) / 1000000000f;
+        lastTick = System.nanoTime();
 
+        // Set player direction
         player.setDirection(
                 new Vector2f(
                         gameContainer.getInput().getMouseX(),
@@ -114,12 +115,14 @@ public class ZombieGame extends BasicGameState {
             gameContainer.exit();
         }
 
+        // Update entities
         player.update(delta);
 
         for (Zombie zombie : zombies) {
             zombie.update(delta);
         }
 
+        // Zombie + bullet collision detection
         for (Iterator<Bullet> it = bullets.iterator(); it.hasNext(); ) {
             Bullet bullet = it.next();
 
